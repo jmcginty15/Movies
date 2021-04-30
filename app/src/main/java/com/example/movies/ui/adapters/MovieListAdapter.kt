@@ -3,6 +3,8 @@ package com.example.movies.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.movies.R
 import com.example.movies.data.models.ShortMovieDTO
 import com.example.movies.databinding.MovieItemBinding
 
@@ -31,11 +33,12 @@ class MovieListAdapter(private val listener: (movieId: Int) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
         val movieItemLayout = binding.movieItemLayout
         fun loadData(movie: ShortMovieDTO) {
-            binding.title.text = movie.title
-            binding.releaseYear.text = getYear(movie.releaseDate)
+            println(movie)
+            if (movie.posterPath != null) Glide.with(binding.root)
+                .load("https://image.tmdb.org/t/p/w500${movie.posterPath}").transform()
+                .into(binding.posterContainer)
+            else binding.titleContainer.text = movie.title
         }
-
-        private fun getYear(date: String): String = date.slice(0..3)
     }
 
     fun addData(movies: List<ShortMovieDTO>) {

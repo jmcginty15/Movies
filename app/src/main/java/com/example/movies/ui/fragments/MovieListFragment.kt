@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.OrientationHelper
 import com.example.movies.R
 import com.example.movies.databinding.MovieListFragmentBinding
 import com.example.movies.ui.MainViewModel
@@ -36,10 +38,9 @@ class MovieListFragment : Fragment() {
             viewLifecycleOwner,
             { response -> movieListAdapter.addData(response.results) })
 
-        binding.movieListRecycler.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = movieListAdapter
-        }
+        val layoutManager = GridLayoutManager(requireContext(), 3)
+        binding.movieListRecycler.layoutManager = layoutManager
+        binding.movieListRecycler.adapter = movieListAdapter
     }
 
     private fun showMovie(movieId: Int) {
